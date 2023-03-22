@@ -1,21 +1,26 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import ROUTES from "../app/routes";
 import { ALL_ICONS } from "../data/icons";
+import { addTopic } from "../features/topics/TopicSlice";
 
 export default function NewTopicForm() {
   const [name, setName] = useState("");
   const [icon, setIcon] = useState("");
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name.length === 0) {
       return;
     }
-
+    console.log("click this");
     // dispatch your add topic action here
+    dispatch(addTopic({ name: name, id: uuidv4(), icon: icon }));
+
     history.push(ROUTES.topicsRoute());
   };
 
@@ -46,7 +51,9 @@ export default function NewTopicForm() {
             ))}
           </select>
         </div>
-        <button className="center">Add Topic</button>
+        <button type="submit" className="center">
+          Add Topic
+        </button>
       </form>
     </section>
   );
